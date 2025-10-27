@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MasterCraft Stretcher Bars - Gallery-Quality Canvas Framing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/splitting@1.0.6/dist/splitting.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-cedar: #8B4513;
+            --wood-burlywood: #DEB887;
+            --wood-peru: #CD853F;
+            --forest-green: #2F4F2F;
+            --charcoal: #36454F;
+            --brass-gold: #B8860B;
+            --cream: #FAF0E6;
+            --espresso: #3C2415;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--cream) 0%, #F5F5DC 100%);
+            font-family: 'Source Sans Pro', sans-serif;
+            color: var(--espresso);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(60, 36, 21, 0.4), rgba(60, 36, 21, 0.6)), url('resources/hero-craftsman.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .wood-texture {
+            background: linear-gradient(45deg, var(--wood-burlywood), var(--wood-peru));
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--wood-peru);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.2);
+            border-color: var(--brass-gold);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--wood-cedar), var(--wood-peru));
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--wood-peru), var(--brass-gold));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+        
+        .nav-link {
+            color: var(--espresso);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--wood-cedar);
+            transform: translateY(-1px);
+        }
+        
+        .configurator-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .price-display {
+            background: linear-gradient(135deg, var(--brass-gold), #DAA520);
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .animate-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .splide__slide img {
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .stats-counter {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--wood-cedar);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 wood-texture shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-white" style="font-family: 'Playfair Display', serif;">MasterCraft</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link font-medium">Home</a>
+                        <a href="products.html" class="nav-link font-medium">Products</a>
+                        <a href="order.html" class="nav-link font-medium">Order</a>
+                        <a href="about.html" class="nav-link font-medium">About</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-white hover:text-gray-300">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center relative">
+        <div class="text-center text-white px-4 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in" style="font-family: 'Playfair Display', serif;">
+                <span id="typed-text"></span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 animate-fade-in opacity-90">
+                Professional stretcher bars and exhibition frames crafted with precision for artists and galleries who demand excellence.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+                <button onclick="scrollToConfigurator()" class="btn-primary px-8 py-4 rounded-lg text-lg font-semibold">
+                    Start Your Order
+                </button>
+                <a href="products.html" class="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-gray-800 transition-all duration-300">
+                    View Products
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Product Configurator -->
+    <section id="configurator" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in" style="font-family: 'Playfair Display', serif; color: var(--wood-cedar);">
+                    Custom Stretcher Bar Configurator
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto animate-fade-in">
+                    Design your perfect stretcher bars with our interactive configurator. See real-time pricing and visual previews as you customize.
+                </p>
+            </div>
+
+            <div class="configurator-panel p-8 animate-fade-in">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Product Type Selection -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--wood-cedar);">Product Type</h3>
+                        <div class="space-y-4">
+                            <div class="product-card p-4 rounded-lg cursor-pointer" onclick="selectProduct('keyable')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 2L3 7v11a1 1 0 001 1h3v-8h6v8h3a1 1 0 001-1V7l-7-5z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-lg">Keyable Stretcher Bars</h4>
+                                        <p class="text-gray-600">Adjustable tension with corner keys</p>
+                                        <p class="text-sm font-medium" style="color: var(--wood-cedar);">From $45</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-card p-4 rounded-lg cursor-pointer" onclick="selectProduct('fixed')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-lg flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-lg">Fixed Stretcher Bars</h4>
+                                        <p class="text-gray-600">Traditional fixed-frame construction</p>
+                                        <p class="text-sm font-medium" style="color: var(--wood-cedar);">From $32</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="product-card p-4 rounded-lg cursor-pointer" onclick="selectProduct('exhibition')">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-lg flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-lg">Exhibition Frames</h4>
+                                        <p class="text-gray-600">Gallery-ready presentation frames</p>
+                                        <p class="text-sm font-medium" style="color: var(--wood-cedar);">From $68</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wood Type Selection -->
+                        <div class="mt-8">
+                            <h4 class="text-xl font-bold mb-4" style="color: var(--wood-cedar);">Wood Type</h4>
+                            <div class="grid grid-cols-1 gap-3">
+                                <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="woodType" value="pine" checked onchange="updatePrice()">
+                                    <div class="flex-1">
+                                        <span class="font-medium">Premium Pine</span>
+                                        <p class="text-sm text-gray-600">Kiln-dried, knot-free</p>
+                                    </div>
+                                    <span class="text-sm font-medium" style="color: var(--wood-cedar);">+$0</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="woodType" value="oak" onchange="updatePrice()">
+                                    <div class="flex-1">
+                                        <span class="font-medium">White Oak</span>
+                                        <p class="text-sm text-gray-600">Premium hardwood</p>
+                                    </div>
+                                    <span class="text-sm font-medium" style="color: var(--wood-cedar);">+$25</span>
+                                </label>
+                                <label class="flex items-center space-x-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                                    <input type="radio" name="woodType" value="poplar" onchange="updatePrice()">
+                                    <div class="flex-1">
+                                        <span class="font-medium">Poplar</span>
+                                        <p class="text-sm text-gray-600">Lightweight, stable</p>
+                                    </div>
+                                    <span class="text-sm font-medium" style="color: var(--wood-cedar);">+$15</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Preview -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--wood-cedar);">Preview</h3>
+                        <div class="bg-white rounded-lg p-6 border-2 border-gray-200">
+                            <div id="product-preview" class="text-center">
+                                <div class="w-64 h-48 mx-auto bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg flex items-center justify-center mb-4">
+                                    <svg class="w-24 h-24 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 2L3 7v11a1 1 0 001 1h3v-8h6v8h3a1 1 0 001-1V7l-7-5z"/>
+                                    </svg>
+                                </div>
+                                <h4 id="preview-title" class="text-xl font-semibold mb-2">Keyable Stretcher Bars</h4>
+                                <p id="preview-description" class="text-gray-600 mb-4">Adjustable tension system with corner keys for canvas tightening</p>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                        <span class="font-medium">Profile:</span>
+                                        <span id="profile-info">44×44mm</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-medium">Depth:</span>
+                                        <span id="depth-info">1.75"</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dimensions -->
+                        <div class="bg-white rounded-lg p-6 border-2 border-gray-200">
+                            <h4 class="text-lg font-semibold mb-4" style="color: var(--wood-cedar);">Dimensions</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Width (inches)</label>
+                                    <input type="number" id="width" value="24" min="8" max="72" class="w-full p-2 border rounded-lg" onchange="updatePrice()">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-1">Height (inches)</label>
+                                    <input type="number" id="height" value="36" min="8" max="72" class="w-full p-2 border rounded-lg" onchange="updatePrice()">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium mb-1">Quantity</label>
+                                <input type="number" id="quantity" value="1" min="1" max="50" class="w-full p-2 border rounded-lg" onchange="updatePrice()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing & Order -->
+                    <div class="space-y-6">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--wood-cedar);">Pricing</h3>
+                        
+                        <div class="price-display rounded-lg p-6 text-center">
+                            <div class="text-3xl font-bold mb-2">
+                                $<span id="total-price">45.00</span>
+                            </div>
+                            <div class="text-sm opacity-90">Total Price</div>
+                        </div>
+
+                        <div class="bg-white rounded-lg p-6 border-2 border-gray-200">
+                            <h4 class="text-lg font-semibold mb-4" style="color: var(--wood-cedar);">Order Summary</h4>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span>Base Price:</span>
+                                    <span id="base-price">$45.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Wood Upgrade:</span>
+                                    <span id="wood-upgrade">$0.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Quantity:</span>
+                                    <span id="quantity-display">1</span>
+                                </div>
+                                <hr class="my-2">
+                                <div class="flex justify-between font-semibold">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">$45.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="addToCart()" class="w-full btn-primary py-4 rounded-lg text-lg font-semibold">
+                            Add to Order
+                        </button>
+                        
+                        <button onclick="window.location.href='order.html'" class="w-full border-2 border-gray-300 text-gray-700 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition-all duration-300">
+                            Complete Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Showcase -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in" style="font-family: 'Playfair Display', serif; color: var(--wood-cedar);">
+                    Gallery Showcase
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto animate-fade-in">
+                    See our stretcher bars in action at prestigious galleries and exhibitions worldwide.
+                </p>
+            </div>
+
+            <div class="splide animate-fade-in" id="gallery-carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <img src="resources/gallery-display.png" alt="Gallery Exhibition" class="w-full h-80 object-cover">
+                            <div class="p-4 text-center">
+                                <h4 class="text-xl font-semibold mb-2">Contemporary Art Exhibition</h4>
+                                <p class="text-gray-600">Professional exhibition frames showcasing modern artwork</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <img src="resources/keyable-detail.png" alt="Keyable Mechanism" class="w-full h-80 object-cover">
+                            <div class="p-4 text-center">
+                                <h4 class="text-xl font-semibold mb-2">Precision Engineering</h4>
+                                <p class="text-gray-600">Detailed view of our adjustable keyable stretcher system</p>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <img src="resources/workshop-materials.png" alt="Workshop Materials" class="w-full h-80 object-cover">
+                            <div class="p-4 text-center">
+                                <h4 class="text-xl font-semibold mb-2">Premium Materials</h4>
+                                <p class="text-gray-600">Kiln-dried lumber selection for optimal quality</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-20" style="background: var(--forest-green);">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
+                <div class="animate-fade-in">
+                    <div class="stats-counter text-5xl md:text-6xl mb-4" data-target="25">0</div>
+                    <h3 class="text-xl font-semibold mb-2">Years Experience</h3>
+                    <p class="opacity-90">Crafting gallery-quality stretcher bars</p>
+                </div>
+                <div class="animate-fade-in">
+                    <div class="stats-counter text-5xl md:text-6xl mb-4" data-target="15000">0</div>
+                    <h3 class="text-xl font-semibold mb-2">Frames Crafted</h3>
+                    <p class="opacity-90">For artists and galleries worldwide</p>
+                </div>
+                <div class="animate-fade-in">
+                    <div class="stats-counter text-5xl md:text-6xl mb-4" data-target="98">0</div>
+                    <h3 class="text-xl font-semibold mb-2">% Satisfaction</h3>
+                    <p class="opacity-90">Customer satisfaction guarantee</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 animate-fade-in" style="font-family: 'Playfair Display', serif; color: var(--wood-cedar);">
+                    What Artists Say
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg p-6 shadow-lg animate-fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                            S
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Sarah Mitchell</h4>
+                            <p class="text-sm text-gray-600">Contemporary Artist</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic" style="font-family: 'Crimson Text', serif;">
+                        "The keyable stretcher bars are a game-changer. I can adjust the tension whenever needed, and the quality is unmatched. My galleries love the professional finish."
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-lg animate-fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                            M
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Marcus Chen</h4>
+                            <p class="text-sm text-gray-600">Gallery Director</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic" style="font-family: 'Crimson Text', serif;">
+                        "We've used MasterCraft for all our exhibitions. The precision and consistency across large orders is impressive. They understand what galleries need."
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow-lg animate-fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">
+                            E
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold">Elena Rodriguez</h4>
+                            <p class="text-sm text-gray-600">Oil Painter</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic" style="font-family: 'Crimson Text', serif;">
+                        "The exhibition frames are stunning. They elevate my work to museum quality, and the craftsmanship shows in every detail. Worth every penny."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="wood-texture text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">MasterCraft Stretcher Bars</h3>
+            <p class="mb-6 opacity-90">Precision craftsmanship for gallery-quality results</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 mb-6">
+                <a href="mailto:info@mastercraft.com" class="hover:text-gray-300 transition-colors">info@mastercraft.com</a>
+                <a href="tel:+1234567890" class="hover:text-gray-300 transition-colors">(123) 456-7890</a>
+                <span>Mon-Fri 8AM-6PM EST</span>
+            </div>
+            <p class="text-sm opacity-75">&copy; 2024 MasterCraft Stretcher Bars. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

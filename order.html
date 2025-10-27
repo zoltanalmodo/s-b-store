@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - MasterCraft Stretcher Bars</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@300;400;600&family=Crimson+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wood-cedar: #8B4513;
+            --wood-burlywood: #DEB887;
+            --wood-peru: #CD853F;
+            --forest-green: #2F4F2F;
+            --charcoal: #36454F;
+            --brass-gold: #B8860B;
+            --cream: #FAF0E6;
+            --espresso: #3C2415;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--cream) 0%, #F5F5DC 100%);
+            font-family: 'Source Sans Pro', sans-serif;
+            color: var(--espresso);
+        }
+        
+        .wood-texture {
+            background: linear-gradient(45deg, var(--wood-burlywood), var(--wood-peru));
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--wood-cedar), var(--wood-peru));
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--wood-peru), var(--brass-gold));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+        
+        .nav-link {
+            color: var(--espresso);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--wood-cedar);
+            transform: translateY(-1px);
+        }
+        
+        .animate-fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .order-step {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .step-indicator {
+            background: #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background: var(--wood-cedar);
+            color: white;
+        }
+        
+        .step-indicator.completed {
+            background: var(--brass-gold);
+            color: white;
+        }
+        
+        .cart-item {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .form-input {
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--wood-cedar);
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--wood-cedar), var(--brass-gold));
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .order-summary {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 wood-texture shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-white" style="font-family: 'Playfair Display', serif;">MasterCraft</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-link font-medium">Home</a>
+                        <a href="products.html" class="nav-link font-medium">Products</a>
+                        <a href="order.html" class="nav-link font-medium text-yellow-600">Order</a>
+                        <a href="about.html" class="nav-link font-medium">About</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 animate-fade-in" style="font-family: 'Playfair Display', serif; color: var(--wood-cedar);">
+                Complete Your Order
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8 animate-fade-in">
+                Professional stretcher bars crafted to your exact specifications. Follow our simple ordering process to get gallery-quality frames delivered to your studio.
+            </p>
+        </div>
+    </section>
+
+    <!-- Order Progress -->
+    <section class="pb-8 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center justify-between mb-8 animate-fade-in">
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator active w-10 h-10 rounded-full flex items-center justify-center font-bold">1</div>
+                    <span class="font-medium">Products</span>
+                </div>
+                <div class="flex-1 mx-4">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">2</div>
+                    <span class="font-medium">Details</span>
+                </div>
+                <div class="flex-1 mx-4">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">3</div>
+                    <span class="font-medium">Contact</span>
+                </div>
+                <div class="flex-1 mx-4">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center font-bold">4</div>
+                    <span class="font-medium">Review</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form -->
+    <section class="py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Order Form -->
+                <div class="lg:col-span-2">
+                    <!-- Step 1: Product Selection -->
+                    <div id="step-1" class="order-step p-8 animate-fade-in">
+                        <h2 class="text-3xl font-bold mb-6" style="color: var(--wood-cedar);">Your Order</h2>
+                        
+                        <div id="empty-cart" class="text-center py-12">
+                            <svg class="w-24 h-24 text-gray-300 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                            </svg>
+                            <h3 class="text-2xl font-semibold mb-4 text-gray-600">Your cart is empty</h3>
+                            <p class="text-gray-500 mb-6">Add products from our catalog to get started</p>
+                            <a href="products.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-block">
+                                Browse Products
+                            </a>
+                        </div>
+                        
+                        <div id="cart-items" class="space-y-4 hidden">
+                            <!-- Cart items will be populated here -->
+                        </div>
+                        
+                        <div id="add-more-section" class="mt-8 pt-8 border-t border-gray-200 hidden">
+                            <h3 class="text-xl font-semibold mb-4">Add More Items</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <button onclick="quickAdd('keyable')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-yellow-500 transition-colors text-left">
+                                    <h4 class="font-semibold">Keyable Stretcher Bars</h4>
+                                    <p class="text-sm text-gray-600">Adjustable tension system</p>
+                                    <p class="text-sm font-medium" style="color: var(--wood-cedar);">From $45</p>
+                                </button>
+                                <button onclick="quickAdd('fixed')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-yellow-500 transition-colors text-left">
+                                    <h4 class="font-semibold">Fixed Stretcher Bars</h4>
+                                    <p class="text-sm text-gray-600">Traditional construction</p>
+                                    <p class="text-sm font-medium" style="color: var(--wood-cedar);">From $32</p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Customization Details -->
+                    <div id="step-2" class="order-step p-8 animate-fade-in hidden">
+                        <h2 class="text-3xl font-bold mb-6" style="color: var(--wood-cedar);">Customization Details</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Wood Type Selection</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 transition-colors">
+                                        <input type="radio" name="woodType" value="pine" class="mr-3" checked>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Premium Pine</h4>
+                                            <p class="text-sm text-gray-600">Kiln-dried, excellent stability</p>
+                                            <p class="text-sm font-medium" style="color: var(--wood-cedar);">Standard</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 transition-colors">
+                                        <input type="radio" name="woodType" value="oak" class="mr-3">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">White Oak</h4>
+                                            <p class="text-sm text-gray-600">Premium hardwood</p>
+                                            <p class="text-sm font-medium" style="color: var(--wood-cedar);">+$25</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 transition-colors">
+                                        <input type="radio" name="woodType" value="poplar" class="mr-3">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Poplar</h4>
+                                            <p class="text-sm text-gray-600">Lightweight, stable</p>
+                                            <p class="text-sm font-medium" style="color: var(--wood-cedar);">+$15</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Finish Options</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 transition-colors">
+                                        <input type="radio" name="finish" value="natural" class="mr-3" checked>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Natural Finish</h4>
+                                            <p class="text-sm text-gray-600">Clear sealant, wood grain visible</p>
+                                            <p class="text-sm font-medium" style="color: var(--wood-cedar);">Standard</p>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-yellow-500 transition-colors">
+                                        <input type="radio" name="finish" value="stained" class="mr-3">
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Stained Finish</h4>
+                                            <p class="text-sm text-gray-600">Professional wood stain</p>
+                                            <p class="text-sm font-medium" style="color: var(--wood-cedar);">+$15</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Special Instructions</h3>
+                                <textarea id="special-instructions" rows="4" class="w-full form-input p-3 rounded-lg" placeholder="Any special requirements, delivery instructions, or custom specifications..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button onclick="previousStep()" class="px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                                Back to Products
+                            </button>
+                            <button onclick="nextStep()" class="btn-primary px-8 py-3 rounded-lg font-semibold">
+                                Continue to Contact
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contact Information -->
+                    <div id="step-3" class="order-step p-8 animate-fade-in hidden">
+                        <h2 class="text-3xl font-bold mb-6" style="color: var(--wood-cedar);">Contact Information</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">First Name *</label>
+                                <input type="text" id="first-name" class="w-full form-input p-3 rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Last Name *</label>
+                                <input type="text" id="last-name" class="w-full form-input p-3 rounded-lg" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium mb-2">Email Address *</label>
+                                <input type="email" id="email" class="w-full form-input p-3 rounded-lg" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Phone Number</label>
+                                <input type="tel" id="phone" class="w-full form-input p-3 rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Company/Gallery</label>
+                                <input type="text" id="company" class="w-full form-input p-3 rounded-lg">
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <h3 class="text-xl font-semibold mb-4">Delivery Address</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium mb-2">Street Address *</label>
+                                    <input type="text" id="address" class="w-full form-input p-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">City *</label>
+                                    <input type="text" id="city" class="w-full form-input p-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">State/Province *</label>
+                                    <input type="text" id="state" class="w-full form-input p-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">ZIP/Postal Code *</label>
+                                    <input type="text" id="zip" class="w-full form-input p-3 rounded-lg" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Country *</label>
+                                    <select id="country" class="w-full form-input p-3 rounded-lg" required>
+                                        <option value="">Select Country</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="UK">United Kingdom</option>
+                                        <option value="AU">Australia</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button onclick="previousStep()" class="px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                                Back to Customization
+                            </button>
+                            <button onclick="nextStep()" class="btn-primary px-8 py-3 rounded-lg font-semibold">
+                                Review Order
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Order Review -->
+                    <div id="step-4" class="order-step p-8 animate-fade-in hidden">
+                        <h2 class="text-3xl font-bold mb-6" style="color: var(--wood-cedar);">Review Your Order</h2>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Order Items</h3>
+                                <div id="review-items" class="space-y-3">
+                                    <!-- Review items will be populated here -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Delivery Details</h3>
+                                <div id="review-contact" class="bg-gray-50 p-4 rounded-lg">
+                                    <!-- Contact details will be populated here -->
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4">Special Instructions</h3>
+                                <div id="review-instructions" class="bg-gray-50 p-4 rounded-lg text-gray-600">
+                                    No special instructions provided.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between mt-8">
+                            <button onclick="previousStep()" class="px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
+                                Back to Contact
+                            </button>
+                            <button onclick="submitOrder()" class="btn-primary px-8 py-3 rounded-lg font-semibold">
+                                Submit Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="order-summary p-6 sticky top-24">
+                        <h3 class="text-2xl font-bold mb-6" style="color: var(--wood-cedar);">Order Summary</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span>Subtotal:</span>
+                                <span id="summary-subtotal">$0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Wood Upgrade:</span>
+                                <span id="summary-wood-upgrade">$0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Finish Upgrade:</span>
+                                <span id="summary-finish-upgrade">$0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Shipping:</span>
+                                <span id="summary-shipping">Calculated at checkout</span>
+                            </div>
+                            <hr class="border-gray-300">
+                            <div class="flex justify-between text-xl font-bold">
+                                <span>Total:</span>
+                                <span id="summary-total">$0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center text-sm text-gray-600 mb-4">
+                            <p>Secure checkout process</p>
+                            <p>Professional craftsmanship guarantee</p>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="text-sm text-gray-600 mb-2">Need help?</div>
+                            <a href="mailto:info@mastercraft.com" class="text-sm font-medium" style="color: var(--wood-cedar);">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="wood-texture text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold mb-4" style="font-family: 'Playfair Display', serif;">MasterCraft Stretcher Bars</h3>
+            <p class="mb-6 opacity-90">Precision craftsmanship for gallery-quality results</p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 mb-6">
+                <a href="mailto:info@mastercraft.com" class="hover:text-gray-300 transition-colors">info@mastercraft.com</a>
+                <a href="tel:+1234567890" class="hover:text-gray-300 transition-colors">(123) 456-7890</a>
+                <span>Mon-Fri 8AM-6PM EST</span>
+            </div>
+            <p class="text-sm opacity-75">&copy; 2024 MasterCraft Stretcher Bars. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // Order page specific functionality
+        let currentStep = 1;
+        let orderData = {
+            items: [],
+            customization: {},
+            contact: {},
+            total: 0
+        };
+
+        // Initialize order page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartItems();
+            updateOrderSummary();
+        });
+
+        function loadCartItems() {
+            const cart = getCartItems();
+            const emptyCart = document.getElementById('empty-cart');
+            const cartItems = document.getElementById('cart-items');
+            const addMoreSection = document.getElementById('add-more-section');
+
+            if (cart.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartItems.classList.add('hidden');
+                addMoreSection.classList.add('hidden');
+            } else {
+                emptyCart.classList.add('hidden');
+                cartItems.classList.remove('hidden');
+                addMoreSection.classList.remove('hidden');
+                
+                renderCartItems(cart);
+            }
+        }
+
+        function renderCartItems(cart) {
+            const cartItemsContainer = document.getElementById('cart-items');
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item p-4 rounded-lg';
+                itemElement.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-lg">${getProductDisplayName(item.type)}</h4>
+                            <p class="text-gray-600">${item.width}" × ${item.height}" • ${getWoodTypeDisplayName(item.woodType)}</p>
+                            <p class="text-sm text-gray-500">Quantity: ${item.quantity}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-bold" style="color: var(--wood-cedar);">${formatPrice(item.price)}</div>
+                            <button onclick="removeCartItem(${index})" class="text-sm text-red-500 hover:text-red-700 mt-1">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+
+            orderData.items = cart;
+        }
+
+        function removeCartItem(index) {
+            let cart = getCartItems();
+            cart.splice(index, 1);
+            localStorage.setItem('mastercraftCart', JSON.stringify(cart));
+            loadCartItems();
+            updateOrderSummary();
+        }
+
+        function quickAdd(productType) {
+            // Add a basic item of the selected type
+            const item = {
+                id: Date.now(),
+                type: productType,
+                woodType: 'pine',
+                width: 24,
+                height: 36,
+                quantity: 1,
+                price: productType === 'keyable' ? 45 : 32,
+                timestamp: new Date().toISOString()
+            };
+
+            let cart = getCartItems();
+            cart.push(item);
+            localStorage.setItem('mastercraftCart', JSON.stringify(cart));
+            
+            loadCartItems();
+            updateOrderSummary();
+            showNotification('Item added to your order!', 'success');
+        }
+
+        function nextStep() {
+            if (validateCurrentStep()) {
+                currentStep++;
+                updateStepDisplay();
+                updateProgressIndicator();
+            }
+        }
+
+        function previousStep() {
+            currentStep--;
+            updateStepDisplay();
+            updateProgressIndicator();
+        }
+
+        function validateCurrentStep() {
+            switch (currentStep) {
+                case 1:
+                    const cart = getCartItems();
+                    if (cart.length === 0) {
+                        showNotification('Please add items to your order first', 'error');
+                        return false;
+                    }
+                    return true;
+                case 2:
+                    // Save customization data
+                    orderData.customization.woodType = document.querySelector('input[name="woodType"]:checked')?.value || 'pine';
+                    orderData.customization.finish = document.querySelector('input[name="finish"]:checked')?.value || 'natural';
+                    orderData.customization.instructions = document.getElementById('special-instructions').value;
+                    return true;
+                case 3:
+                    // Validate and save contact data
+                    const requiredFields = ['first-name', 'last-name', 'email', 'address', 'city', 'state', 'zip', 'country'];
+                    for (let field of requiredFields) {
+                        const element = document.getElementById(field);
+                        if (!element.value.trim()) {
+                            showNotification(`Please fill in the ${field.replace('-', ' ')} field`, 'error');
+                            element.focus();
+                            return false;
+                        }
+                        orderData.contact[field.replace('-', '_')] = element.value.trim();
+                    }
+                    orderData.contact.phone = document.getElementById('phone').value;
+                    orderData.contact.company = document.getElementById('company').value;
+                    
+                    // Populate review section
+                    populateReviewSection();
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        function updateStepDisplay() {
+            // Hide all steps
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`step-${i}`).classList.add('hidden');
+            }
+            
+            // Show current step
+            document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+            
+            // Animate step transition
+            anime({
+                targets: `#step-${currentStep}`,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 500,
+                easing: 'easeOutQuart'
+            });
+        }
+
+        function updateProgressIndicator() {
+            const progressFills = document.querySelectorAll('.progress-fill');
+            const stepIndicators = document.querySelectorAll('.step-indicator');
+            
+            // Update progress bars
+            progressFills.forEach((fill, index) => {
+                const progress = Math.max(0, Math.min(100, ((currentStep - 1 - index) * 100)));
+                fill.style.width = `${progress}%`;
+            });
+            
+            // Update step indicators
+            stepIndicators.forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    indicator.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        function populateReviewSection() {
+            // Populate review items
+            const reviewItems = document.getElementById('review-items');
+            reviewItems.innerHTML = '';
+            
+            orderData.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'flex justify-between items-center p-3 bg-gray-100 rounded-lg';
+                itemDiv.innerHTML = `
+                    <div>
+                        <span class="font-medium">${getProductDisplayName(item.type)}</span>
+                        <span class="text-gray-600"> - ${item.width}" × ${item.height}"</span>
+                    </div>
+                    <span class="font-bold">${formatPrice(item.price)}</span>
+                `;
+                reviewItems.appendChild(itemDiv);
+            });
+            
+            // Populate contact details
+            const reviewContact = document.getElementById('review-contact');
+            reviewContact.innerHTML = `
+                <p><strong>Name:</strong> ${orderData.contact.first_name} ${orderData.contact.last_name}</p>
+                <p><strong>Email:</strong> ${orderData.contact.email}</p>
+                ${orderData.contact.phone ? `<p><strong>Phone:</strong> ${orderData.contact.phone}</p>` : ''}
+                ${orderData.contact.company ? `<p><strong>Company:</strong> ${orderData.contact.company}</p>` : ''}
+                <p><strong>Address:</strong> ${orderData.contact.address}, ${orderData.contact.city}, ${orderData.contact.state} ${orderData.contact.zip}</p>
+            `;
+            
+            // Populate special instructions
+            const reviewInstructions = document.getElementById('review-instructions');
+            if (orderData.customization.instructions) {
+                reviewInstructions.textContent = orderData.customization.instructions;
+            } else {
+                reviewInstructions.textContent = 'No special instructions provided.';
+            }
+        }
+
+        function updateOrderSummary() {
+            const cart = getCartItems();
+            const subtotal = cart.reduce((total, item) => total + item.price, 0);
+            
+            // Calculate upgrades based on current selections
+            let woodUpgrade = 0;
+            let finishUpgrade = 0;
+            
+            if (currentStep >= 2) {
+                const woodType = document.querySelector('input[name="woodType"]:checked')?.value || 'pine';
+                const finish = document.querySelector('input[name="finish"]:checked')?.value || 'natural';
+                
+                if (woodType === 'oak') woodUpgrade = 25 * cart.length;
+                if (woodType === 'poplar') woodUpgrade = 15 * cart.length;
+                if (finish === 'stained') finishUpgrade = 15 * cart.length;
+            }
+            
+            const total = subtotal + woodUpgrade + finishUpgrade;
+            
+            // Update display
+            document.getElementById('summary-subtotal').textContent = formatPrice(subtotal);
+            document.getElementById('summary-wood-upgrade').textContent = woodUpgrade > 0 ? formatPrice(woodUpgrade) : '$0.00';
+            document.getElementById('summary-finish-upgrade').textContent = finishUpgrade > 0 ? formatPrice(finishUpgrade) : '$0.00';
+            document.getElementById('summary-total').textContent = formatPrice(total);
+            
+            orderData.total = total;
+        }
+
+        function submitOrder() {
+            // Show loading state
+            const submitBtn = event.target;
+            const originalText = submitBtn.textContent;
+            showLoading(submitBtn);
+            
+            // Simulate order processing
+            setTimeout(() => {
+                // Generate order number
+                const orderNumber = 'MC' + Date.now().toString().slice(-6);
+                
+                // Clear cart
+                clearCart();
+                
+                // Show success message
+                hideLoading(submitBtn, originalText);
+                showOrderSuccess(orderNumber);
+            }, 2000);
+        }
+
+        function showOrderSuccess(orderNumber) {
+            const orderStep = document.getElementById(`step-${currentStep}`);
+            orderStep.innerHTML = `
+                <div class="text-center py-16">
+                    <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-12 h-12 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4" style="color: var(--wood-cedar);">Order Submitted Successfully!</h2>
+                    <p class="text-xl text-gray-600 mb-6">Your order number is: <strong>${orderNumber}</strong></p>
+                    <p class="text-gray-600 mb-8">Thank you for choosing MasterCraft Stretcher Bars. We'll contact you within 24 hours to confirm your order details and provide shipping information.</p>
+                    <div class="space-y-4">
+                        <a href="index.html" class="btn-primary px-8 py-3 rounded-lg font-semibold inline-block">
+                            Return to Home
+                        </a>
+                        <div>
+                            <a href="mailto:info@mastercraft.com" class="text-sm font-medium" style="color: var(--wood-cedar);">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add event listeners for form changes
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'woodType' || e.target.name === 'finish') {
+                updateOrderSummary();
+            }
+        });
+    </script>
+</body>
+</html>
